@@ -8,7 +8,8 @@ import {
   Menu, 
   X,
   FileText,
-  LayoutDashboard
+  LayoutDashboard,
+  Shield
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -21,6 +22,8 @@ export default function MainLayout() {
     logout()
     navigate('/')
   }
+
+  const isAdmin = user?.role === 'admin' || user?.role === 'loan_officer'
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -58,6 +61,15 @@ export default function MainLayout() {
                     <FileText size={18} />
                     My Loans
                   </Link>
+                  
+                  {/* Admin Panel Link */}
+                  {isAdmin && (
+                    <Link to="/admin" className="text-ghana-gold hover:text-ghana-gold/80 flex items-center gap-1 font-semibold">
+                      <Shield size={18} />
+                      Admin Panel
+                    </Link>
+                  )}
+                  
                   <div className="flex items-center space-x-4 ml-4 pl-4 border-l">
                     <Link to="/dashboard/profile" className="flex items-center gap-2 text-gray-700">
                       <div className="w-8 h-8 rounded-full bg-ghana-green text-white flex items-center justify-center">
@@ -136,6 +148,18 @@ export default function MainLayout() {
                   >
                     My Loans
                   </Link>
+                  
+                  {/* Admin Panel Link - Mobile */}
+                  {isAdmin && (
+                    <Link 
+                      to="/admin" 
+                      className="block py-2 text-ghana-gold font-semibold"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      🛡️ Admin Panel
+                    </Link>
+                  )}
+                  
                   <button 
                     onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
                     className="block py-2 text-red-600"
