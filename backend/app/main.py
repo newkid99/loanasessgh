@@ -14,13 +14,19 @@ from app.core.database import create_tables
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup
-    print("🚀 Starting LoanAssess Ghana API...")
-    await create_tables()
-    print("✅ Database tables ready")
+    """Startup and shutdown events"""
+    # Startup: Create tables and seed database
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    
+    # Run database seeding
+    from app.seed import seed_database
+    await seed_database()
+    
     yield
+    
     # Shutdown
-    print("👋 Shutting down...")
+    await engine.dispose()
 
 app = FastAPI(
     title="LoanAssess Ghana API",
