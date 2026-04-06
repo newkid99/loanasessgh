@@ -27,7 +27,7 @@ class User(Base):
     # Personal Info
     first_name = Column(String(100), nullable=False)
     last_name = Column(String(100), nullable=False)
-    ghana_card_number = Column(String(20), unique=True, nullable=True)
+    ghana_card_number = Column(String(15), unique=False, nullable=True)
     date_of_birth = Column(DateTime, nullable=True)
     
     # Address
