@@ -1,0 +1,3 @@
+"""
+LoanAssess Ghana - Backend Application
+"""
