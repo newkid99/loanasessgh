@@ -82,15 +82,18 @@ async def register(user_data: UserRegister, db: AsyncSession = Depends(get_db)):
                 detail="Ghana Card already registered"
             )
     
-    # Create user
+    # Create user - convert empty ghana_card_number to None
+    ghana_card = user_data.ghana_card_number if user_data.ghana_card_number else None
+    
     user = User(
         email=user_data.email,
         phone=user_data.phone,
         password_hash=get_password_hash(user_data.password),
         first_name=user_data.first_name,
         last_name=user_data.last_name,
-        ghana_card_number=user_data.ghana_card_number
+        ghana_card_number=ghana_card
     )
+    
     
     db.add(user)
     await db.flush()  # Get the user ID
