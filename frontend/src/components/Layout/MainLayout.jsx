@@ -22,7 +22,7 @@ export default function MainLayout() {
     navigate('/')
   }
 
-  const isAdmin = user?.role === 'admin' || user?.role === 'loan_officer'
+  const isAdmin = user?.role?.toLowerCase() === 'admin' || user?.role?.toLowerCase() === 'loan_officer'
 
   return (
     <div className="min-h-screen bg-gray-50">
