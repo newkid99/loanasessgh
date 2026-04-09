@@ -5,6 +5,7 @@ import { useAuth } from './context/AuthContext'
 import MainLayout from './components/Layout/MainLayout'
 import AdminLayout from './components/Layout/AdminLayout'
 
+
 // Public Pages
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -17,6 +18,8 @@ import LoanApplication from './pages/LoanApplication'
 import MyLoans from './pages/MyLoans'
 import LoanDetail from './pages/LoanDetail'
 import Profile from './pages/Profile'
+import Analytics from './pages/admin/Analytics'
+import Users from './pages/admin/Users'
 
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard'
@@ -86,6 +89,8 @@ function App() {
         <Route index element={<AdminDashboard />} />
         <Route path="applications" element={<ApplicationReview />} />
         <Route path="applications/:id" element={<ApplicationDetail />} />
+        <Route path="analytics" element={<Analytics />} />
+        <Route path="users" element={<Users />} />
       </Route>
       
       {/* Catch all */}
