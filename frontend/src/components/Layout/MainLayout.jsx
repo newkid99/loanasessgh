@@ -13,6 +13,18 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 
+import { 
+  Home, 
+  Calculator, 
+  User, 
+  LogOut, 
+  Menu, 
+  X,
+  FileText,
+  LayoutDashboard,
+  Shield
+} from 'lucide-react'
+
 export default function MainLayout() {
   const { user, isAuthenticated, logout } = useAuth()
   const navigate = useNavigate()
@@ -64,7 +76,7 @@ export default function MainLayout() {
                   
                   {/* Admin Panel Link */}
                   {isAdmin && (
-                    <Link to="/admin" className="text-ghana-gold hover:text-ghana-gold/80 flex items-center gap-1 font-semibold">
+                    <Link to="/admin" className="text-yellow-500 hover:text-yellow-400 flex items-center gap-1 font-semibold">
                       <Shield size={18} />
                       Admin Panel
                     </Link>
