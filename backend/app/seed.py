@@ -3,7 +3,7 @@ Database Seeding Script
 """
 
 import hashlib
-from sqlalchemy import select
+from sqlalchemy import select, update
 from app.core.database import async_session
 from app.models.user import User, UserRole
 import uuid
@@ -15,11 +15,14 @@ def hash_password(password: str) -> str:
 
 async def seed_database():
     async with async_session() as session:
-        # Admin
+        # Check if admin exists
         result = await session.execute(
             select(User).where(User.email == "admin@loanassess.gh")
         )
-        if not result.scalar_one_or_none():
+        admin = result.scalar_one_or_none()
+        
+        if not admin:
+            # Create admin user
             session.add(User(
                 id=uuid.uuid4(),
                 email="admin@loanassess.gh",
@@ -31,12 +34,21 @@ async def seed_database():
                 is_active=True
             ))
             print("✅ Admin created")
+        else:
+            # UPDATE existing admin to have admin role
+            if admin.role != UserRole.ADMIN:
+                admin.role = UserRole.ADMIN
+                print("✅ Admin role updated")
+            else:
+                print("ℹ️ Admin already has correct role")
 
-        # Demo user
+        # Check if demo user exists
         result = await session.execute(
             select(User).where(User.email == "demo@example.com")
         )
-        if not result.scalar_one_or_none():
+        demo = result.scalar_one_or_none()
+        
+        if not demo:
             session.add(User(
                 id=uuid.uuid4(),
                 email="demo@example.com",
@@ -49,12 +61,16 @@ async def seed_database():
                 credit_score=680
             ))
             print("✅ Demo user created")
+        else:
+            print("ℹ️ Demo user exists")
 
-        # Loan officer
+        # Check if loan officer exists
         result = await session.execute(
             select(User).where(User.email == "officer@loanassess.gh")
         )
-        if not result.scalar_one_or_none():
+        officer = result.scalar_one_or_none()
+        
+        if not officer:
             session.add(User(
                 id=uuid.uuid4(),
                 email="officer@loanassess.gh",
@@ -66,6 +82,8 @@ async def seed_database():
                 is_active=True
             ))
             print("✅ Loan officer created")
+        else:
+            print("ℹ️ Loan officer exists")
 
         await session.commit()
         print("✅ Seeding complete!")
